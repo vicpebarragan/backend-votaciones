@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tabla: provincia
+model Provincia {
+  id                   Int               @id @default(autoincrement())
+  nombre               String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  Circunscripcion      Circunscripcion[]
+}
+
+// Tabla: circunscripcion
+model Circunscripcion {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  provincia_id         Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  provincia Provincia @relation(fields: [provincia_id], references: [id])
+  Canton    Canton[]
+}
+
+// Tabla: canton
+model Canton {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  circunscripcion_id   Int
+  provincia_id         Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  circunscripcion Circunscripcion @relation(fields: [circunscripcion_id], references: [id])
+  Parroquia       Parroquia[]
+}
+
+// Tabla: parroquia
+model Parroquia {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  canton_id            Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  canton            Canton              @relation(fields: [canton_id], references: [id])
+  Recinto_Electoral Recinto_Electoral[]
+}
+
+// Tabla: recinto
+model Recinto_Electoral {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  parroquia_id         Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  parroquia Parroquia @relation(fields: [parroquia_id], references: [id])
+  Junta     Junta[]
+}
+
+// Tabla: junta
+model Junta {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  recinto_id           Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  recinto Recinto_Electoral @relation(fields: [recinto_id], references: [id])
+}
+
+//Tabla: partido_politico 
+
+model partido_politico {
+  id                   Int       @id @default(autoincrement())
+  nombre               String
+  vigente              Boolean
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  Usuario              Usuario[]
+}
+
+// Tabla: usuario
+model Usuario {
+  id                   Int      @id @default(autoincrement())
+  identificacion       String
+  rol_id               Int
+  nombres              String
+  apellidos            String
+  partido_id           Int
+  genero               String
+  direccion            String?
+  telefono             String?
+  telefono_aux         String?
+  correo_electronico   String
+  canton_id            Int
+  parroquia_id         Int
+  recinto_id           Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  partido partido_politico @relation(fields: [partido_id], references: [id])
+}
