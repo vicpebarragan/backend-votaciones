@@ -102,6 +102,7 @@ model Junta {
   observacion          String?
   usuario_ingreso      Int
   usuario_modificacion Int
+  acta                 acta[]
 
   recinto Recinto_Electoral @relation(fields: [recinto_id], references: [id])
 }
@@ -119,6 +120,10 @@ model partido_politico {
   usuario_ingreso      Int
   usuario_modificacion Int
   Usuario              Usuario[]
+  rbu_opcion_lista  rbu_opcion_lista[]
+  noticia              noticia[]
+  evento               evento[]
+  detalle_acta         detalle_acta[]
 }
 
 // Tabla: usuario
@@ -143,6 +148,312 @@ model Usuario {
   observacion          String?
   usuario_ingreso      Int
   usuario_modificacion Int
+  mensaje              mensaje[]
 
   partido partido_politico @relation(fields: [partido_id], references: [id])
+}
+
+//Tabla: proceso electoral 
+model proceso_electoral {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  fecha                DateTime
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  acta                 acta[]
+  proceso_dignidad     proceso_dignidad[]
+}
+
+//Tabla: tipo chat
+model tipo_chat {
+  id                   Int      @id @default(autoincrement())
+  nombre               String 
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  chat                 chat[]
+} 
+
+//Tabla: chat 
+model chat {
+  id                   Int      @id @default(autoincrement())
+  tipo_chat_id         Int 
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  mensaje              mensaje[]
+
+  chat tipo_chat @relation(fields: [tipo_chat_id], references: [id])
+}
+
+//Tabla: mensaje
+model mensaje {
+  id                   Int      @id @default(autoincrement())
+  usuario_envia_id     Int
+  chat_id              Int
+  mensaje              String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  chat chat @relation(fields: [chat_id], references: [id])
+  usuario_rel Usuario @relation(fields: [usuario_envia_id], references: [id])
+}
+
+
+//Tabla: tipo dignidad 
+model tipo_dignidad {
+  id                   Int      @id @default(autoincrement())
+  dignidad             String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  proceso_dignidad     proceso_dignidad[]
+
+}
+
+
+//Tabla: tipo eleccion 
+model tipo_eleccion {
+  id                   Int      @id @default(autoincrement())
+  tipo                 String
+  descripcion          String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  acta                 acta[]
+  rbu                  rbu[]
+  
+}
+
+//Tabla: acta 
+model acta {
+  id                   Int      @id @default(autoincrement())
+  junta_id             Int
+  delegado_id          Int 
+  proceso_id           Int 
+  tipo_id              Int 
+  total_votantes       Int
+  votos_blancos        Int 
+  votos_nulos          Int  
+  total_firmas         Int  
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  detalle_acta_consulta detalle_acta_consulta[]
+  detalle_acta          detalle_acta[]
+
+  tipo_eleccion tipo_eleccion @relation(fields: [tipo_id], references: [id])
+  Junta Junta @relation(fields: [junta_id], references: [id])
+  proceso_electoral proceso_electoral @relation(fields: [proceso_id], references: [id])
+}
+
+//Tabla: RBU
+model rbu {
+  id                   Int      @id @default(autoincrement())
+  nombre               String
+  descripcion          String
+  tipo_eleccion_id     Int
+  conteo_personas      Int 
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  rbu_opcion_lista     rbu_opcion_lista[]
+  rbu_opcion_dignidad  rbu_opcion_dignidad[]
+  rbu_opcion_consulta  rbu_opcion_consulta[]
+
+  tipo_eleccion tipo_eleccion @relation(fields:[tipo_eleccion_id], references: [id])
+}
+
+model rbu_opcion_lista {
+  id                   Int      @id @default(autoincrement())
+  rbu_id               Int
+  lista_id             Int
+  conteo               Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  rbu rbu @relation(fields: [rbu_id], references: [id])
+  partido_politico partido_politico @relation(fields:[lista_id], references: [id])
+}
+
+
+model rbu_opcion_dignidad {
+  id                   Int      @id @default(autoincrement())
+  rbu_id               Int
+  dignidad_id          Int
+  conteo               Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  rbu rbu @relation(fields: [rbu_id], references: [id])
+  dignidad dignidad @relation(fields:[dignidad_id], references:[id])
+}
+
+model rbu_opcion_consulta {
+  id                   Int      @id @default(autoincrement())
+  rbu_id               Int
+  pregunta_id          Int
+  conteo               Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  rbu rbu @relation(fields: [rbu_id], references: [id])
+  pregunta_consulta_popular pregunta_consulta_popular @relation(fields:[pregunta_id], references:[id])
+}
+
+model dignidad {
+  id                   Int      @id @default(autoincrement())
+  nombres              String
+  apellidos            String
+  identificacion       String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+  rbu_opcion_dignidad  rbu_opcion_dignidad[]
+  proceso_dignidad     proceso_dignidad[]
+  detalle_acta         detalle_acta[]
+}
+
+model pregunta_consulta_popular {
+  id                   Int      @id @default(autoincrement())
+  pregunta             String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  rbu_opcion_consulta  rbu_opcion_consulta[]
+  detalle_acta_consulta detalle_acta_consulta?
+}
+
+model detalle_acta_consulta {
+  id                   Int      @id @default(autoincrement())
+  acta_id              Int
+  pregunta_id          Int      @unique
+  total_si             Int
+  total_no             Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  acta acta @relation(fields:[acta_id], references:[id])
+  pregunta pregunta_consulta_popular @relation(fields:[pregunta_id], references: [id])
+}
+
+model proceso_dignidad {
+  id                   Int      @id @default(autoincrement())
+  proceso_electoral_id Int 
+  dignidad_id          Int
+  tipo_dignidad_id     Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  proceso_electoral proceso_electoral @relation(fields:[proceso_electoral_id], references:[id])
+  dignidad dignidad @relation(fields:[dignidad_id], references:[id])
+  tipo_dignidad tipo_dignidad @relation(fields:[tipo_dignidad_id], references:[id])
+}
+
+model noticia {
+  id                   Int      @id @default(autoincrement())
+  partido_id           Int
+  imagen_url           String 
+  cuerpo               String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  partido_politico partido_politico @relation(fields:[partido_id], references:[id])
+}
+
+model evento {
+  id                   Int      @id @default(autoincrement())
+  partido_id           Int
+  fecha_inicio         DateTime
+  fecha_fin            DateTime
+  hora_inicio          DateTime
+  hora_fin             DateTime
+  descripcion          String
+  imagen_url           String 
+  ubicacion_url        String
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  partido_politico partido_politico @relation(fields:[partido_id], references:[id])  
+}
+
+model detalle_acta {
+  id                   Int      @id @default(autoincrement())
+  acta_id              Int
+  dignidad_id          Int
+  partido_politico_id  Int
+  total_votos          Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  acta acta @relation(fields:[acta_id], references:[id])
+  dignidad dignidad @relation(fields:[dignidad_id], references: [id])
+  partido_politico partido_politico @relation(fields:[partido_politico_id], references:[id])
+
 }
