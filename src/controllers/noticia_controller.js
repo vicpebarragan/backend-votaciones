@@ -28,10 +28,9 @@ const getNoticiaById = async (req, res) => {
 };
 
 const createNoticia = async (req, res) => {
-    const { titulo, contenido, autor } = req.body;
     try {
         const nuevaNoticia = await prisma.noticia.create({
-            data: { titulo, contenido, autor },
+            data: req.body,
         });
         res.status(201).json(nuevaNoticia);
     } catch (error) {
@@ -41,11 +40,10 @@ const createNoticia = async (req, res) => {
 
 const updateNoticia = async (req, res) => {
     const { id } = req.params;
-    const { titulo, contenido, autor } = req.body;
     try {
         const noticiaActualizada = await prisma.noticia.update({
             where: { id: Number(id) },
-            data: { titulo, contenido, autor },
+            data: req.body,
         });
         res.json(noticiaActualizada);
     } catch (error) {

@@ -28,10 +28,9 @@ const getResponsabilidadById = async (req, res) => {
 };
 
 const createResponsabilidad = async (req, res) => {
-    const { nombre, descripcion } = req.body;
     try {
         const newResponsabilidad = await prisma.responsabilidad.create({
-            data: { nombre, descripcion },
+            data: req.body,
         });
         res.status(201).json(newResponsabilidad);
     } catch (error) {
@@ -41,11 +40,10 @@ const createResponsabilidad = async (req, res) => {
 
 const updateResponsabilidad = async (req, res) => {
     const { id } = req.params;
-    const { nombre, descripcion } = req.body;
     try {
         const updatedResponsabilidad = await prisma.responsabilidad.update({
             where: { id: parseInt(id) },
-            data: { nombre, descripcion },
+            data: req.body,
         });
         res.json(updatedResponsabilidad);
     } catch (error) {

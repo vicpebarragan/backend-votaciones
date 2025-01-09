@@ -30,10 +30,7 @@ exports.getCantonById = async (req, res) => {
 exports.createCanton = async (req, res) => {
     try {
         const newCanton = await prisma.canton.create({
-            data: {
-                name: req.body.name,
-                province: req.body.province
-            }
+            data: req.body
         });
         res.status(201).json(newCanton);
     } catch (error) {
@@ -53,10 +50,7 @@ exports.updateCanton = async (req, res) => {
 
         const updatedCanton = await prisma.canton.update({
             where: { id: parseInt(req.params.id) },
-            data: {
-                name: req.body.name != null ? req.body.name : canton.name,
-                province: req.body.province != null ? req.body.province : canton.province
-            }
+            data: req.body
         });
         res.status(200).json(updatedCanton);
     } catch (error) {

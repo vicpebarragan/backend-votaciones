@@ -28,10 +28,9 @@ const getPartidoPoliticoById = async (req, res) => {
 };
 
 const createPartidoPolitico = async (req, res) => {
-    const { nombre, descripcion } = req.body;
     try {
         const newPartidoPolitico = await prisma.partidoPolitico.create({
-            data: { nombre, descripcion },
+            data: req.body,
         });
         res.status(201).json(newPartidoPolitico);
     } catch (error) {
@@ -41,11 +40,10 @@ const createPartidoPolitico = async (req, res) => {
 
 const updatePartidoPolitico = async (req, res) => {
     const { id } = req.params;
-    const { nombre, descripcion } = req.body;
     try {
         const updatedPartidoPolitico = await prisma.partidoPolitico.update({
             where: { id: parseInt(id) },
-            data: { nombre, descripcion },
+            data: req.body,
         });
         res.json(updatedPartidoPolitico);
     } catch (error) {

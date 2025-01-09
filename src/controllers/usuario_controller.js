@@ -28,10 +28,9 @@ const getUsuarioById = async (req, res) => {
 };
 
 const createUsuario = async (req, res) => {
-    const { nombre, email } = req.body;
     try {
         const nuevoUsuario = await prisma.usuario.create({
-            data: { nombre, email },
+            data: req.body,
         });
         res.status(201).json(nuevoUsuario);
     } catch (error) {
@@ -41,11 +40,10 @@ const createUsuario = async (req, res) => {
 
 const updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const { nombre, email } = req.body;
     try {
         const usuarioActualizado = await prisma.usuario.update({
             where: { id: Number(id) },
-            data: { nombre, email },
+            data: req.body,
         });
         res.json(usuarioActualizado);
     } catch (error) {

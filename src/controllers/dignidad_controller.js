@@ -28,10 +28,9 @@ const getDignidadById = async (req, res) => {
 };
 
 const createDignidad = async (req, res) => {
-    const { name, description } = req.body;
     try {
         const newDignidad = await prisma.dignidad.create({
-            data: { name, description },
+            data: req.body,
         });
         res.status(201).json(newDignidad);
     } catch (error) {
@@ -41,11 +40,10 @@ const createDignidad = async (req, res) => {
 
 const updateDignidad = async (req, res) => {
     const { id } = req.params;
-    const { name, description } = req.body;
     try {
         const updatedDignidad = await prisma.dignidad.update({
             where: { id: parseInt(id) },
-            data: { name, description },
+            data: req.body,
         });
         res.json(updatedDignidad);
     } catch (error) {

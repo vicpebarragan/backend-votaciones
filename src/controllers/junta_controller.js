@@ -28,10 +28,9 @@ const getJuntaById = async (req, res) => {
 };
 
 const createJunta = async (req, res) => {
-    const { name, description } = req.body;
     try {
         const newJunta = await prisma.junta.create({
-            data: { name, description },
+            data: req.body,
         });
         res.status(201).json(newJunta);
     } catch (error) {
@@ -41,11 +40,10 @@ const createJunta = async (req, res) => {
 
 const updateJunta = async (req, res) => {
     const { id } = req.params;
-    const { name, description } = req.body;
     try {
         const updatedJunta = await prisma.junta.update({
             where: { id: parseInt(id) },
-            data: { name, description },
+            data: req.body,
         });
         res.json(updatedJunta);
     } catch (error) {

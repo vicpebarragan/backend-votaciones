@@ -28,10 +28,9 @@ const getRolById = async (req, res) => {
 };
 
 const createRol = async (req, res) => {
-    const { name } = req.body;
     try {
         const newRol = await prisma.rol.create({
-            data: { name },
+            data: req.body,
         });
         res.status(201).json(newRol);
     } catch (error) {
@@ -41,11 +40,10 @@ const createRol = async (req, res) => {
 
 const updateRol = async (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
     try {
         const updatedRol = await prisma.rol.update({
             where: { id: parseInt(id) },
-            data: { name },
+            data: req.body,
         });
         res.status(200).json(updatedRol);
     } catch (error) {
