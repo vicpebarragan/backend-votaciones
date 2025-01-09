@@ -34,43 +34,44 @@ const tipoEleccionController = require('../controllers/tipo_eleccion_controller'
 const usuarioController = require('../controllers/usuario_controller');
 
 // Función para agregar las rutas básicas
-const registerRoutes = (path, controller) => {
-  router.get(`/${path}`, controller.getAll);
-  router.get(`/${path}/:id`, controller.getById);
-  router.post(`/${path}`, controller.create);
-  router.put(`/${path}/:id`, controller.update);
-  router.delete(`/${path}/:id`, controller.delete);
+const registerRoutes = (path, get, getById, create, update, del
+) => {
+  router.get(`/${path}`, get);
+  router.get(`/${path}/:id`, getById);
+  router.post(`/${path}`, create);
+  router.put(`/${path}/:id`, update);
+  router.delete(`/${path}/:id`, del);
 };
 
 // Registrar rutas para todas las entidades
-registerRoutes('actas', actaController);
-registerRoutes('cantones', cantonController);
-registerRoutes('chats', chatController);
-registerRoutes('chat-usuarios', chatUsuarioController);
-registerRoutes('circunscripciones', circunscripcionController);
-registerRoutes('detalle-actas-consulta', detalleActaConsultaController);
-registerRoutes('detalle-actas', detalleActaController);
-registerRoutes('dignidades', dignidadController);
-registerRoutes('eventos', eventoController);
-registerRoutes('juntas', juntaController);
-registerRoutes('mensajes', mensajeController);
-registerRoutes('noticias', noticiaController);
-registerRoutes('parroquias', parroquiaController);
-registerRoutes('partidos-politicos', partidoPoliticoController);
-registerRoutes('preguntas-consulta-popular', preguntaConsultaPopularController);
-registerRoutes('procesos-dignidad', procesoDignidadController);
-registerRoutes('procesos-electorales', procesoElectoralController);
-registerRoutes('provincias', provinciaController);
-registerRoutes('rbu', rbuController);
-registerRoutes('rbu-opciones-consulta', rbuOpcionConsultaController);
-registerRoutes('rbu-opciones-dignidad', rbuOpcionDignidadController);
-registerRoutes('rbu-opciones-lista', rbuOpcionListaController);
-registerRoutes('recintos-electorales', recintoElectoralController);
-registerRoutes('responsabilidades', responsabilidadController);
-registerRoutes('roles', rolController);
-registerRoutes('tipos-chat', tipoChatController);
-registerRoutes('tipos-dignidad', tipoDignidadController);
-registerRoutes('tipos-eleccion', tipoEleccionController);
-registerRoutes('usuarios', usuarioController);
+registerRoutes('actas', actaController.getAllActas, actaController.getActaById, actaController.createActa, actaController.updateActa, actaController.deleteActa);
+registerRoutes('cantones', cantonController.getAllCantons, cantonController.getCantonById, cantonController.createCanton, cantonController.updateCanton, cantonController.deleteCanton);
+registerRoutes('chats', chatController.getAllChats, chatController.getChatById, chatController.createChat, chatController.updateChat, chatController.deleteChat);
+registerRoutes('chat-usuarios', chatUsuarioController.getAllChatUsuarios, chatUsuarioController.getChatUsuarioById, chatUsuarioController.createChatUsuario, chatUsuarioController.updateChatUsuario, chatUsuarioController.deleteChatUsuario);
+registerRoutes('circunscripciones', circunscripcionController.getAllCircunscripciones, circunscripcionController.getCircunscripcionById, circunscripcionController.createCircunscripcion, circunscripcionController.updateCircunscripcion, circunscripcionController.deleteCircunscripcion);
+registerRoutes('detalle-actas-consulta', detalleActaConsultaController.getDetalleActaConsulta, detalleActaConsultaController.getDetalleActaConsultaById, detalleActaConsultaController.createDetalleActaConsulta, detalleActaConsultaController.updateDetalleActaConsulta, detalleActaConsultaController.deleteDetalleActaConsulta);
+registerRoutes('detalle-actas', detalleActaController.getDetalleActas, detalleActaController.getDetalleActaById, detalleActaController.createDetalleActa, detalleActaController.updateDetalleActa, detalleActaController.deleteDetalleActa);
+registerRoutes('dignidades', dignidadController.getAllDignidades, dignidadController.getDignidadById, dignidadController.createDignidad, dignidadController.updateDignidad, dignidadController.deleteDignidad);
+registerRoutes('eventos', eventoController.getAllEventos, eventoController.getEventoById, eventoController.createEvento, eventoController.updateEvento, eventoController.deleteEvento);
+registerRoutes('juntas', juntaController.getJuntas, juntaController.getJuntaById, juntaController.createJunta, juntaController.updateJunta, juntaController.deleteJunta);
+registerRoutes('mensajes', mensajeController.getMensajes, mensajeController.getMensajeById, mensajeController.createMensaje, mensajeController.updateMensaje, mensajeController.deleteMensaje);
+registerRoutes('noticias', noticiaController.getNoticias, noticiaController.getNoticiaById, noticiaController.createNoticia, noticiaController.updateNoticia, noticiaController.deleteNoticia);
+registerRoutes('parroquias', parroquiaController.getParroquias, parroquiaController.getParroquiaById, parroquiaController.createParroquia, parroquiaController.updateParroquia, parroquiaController.deleteParroquia);
+registerRoutes('partidos-politicos', partidoPoliticoController.getAllPartidosPoliticos, partidoPoliticoController.getPartidoPoliticoById, partidoPoliticoController.createPartidoPolitico, partidoPoliticoController.updatePartidoPolitico, partidoPoliticoController.deletePartidoPolitico);
+registerRoutes('preguntas-consulta-popular', preguntaConsultaPopularController.getPreguntas, preguntaConsultaPopularController.getPreguntaById, preguntaConsultaPopularController.createPregunta, preguntaConsultaPopularController.updatePregunta, preguntaConsultaPopularController.deletePregunta);
+registerRoutes('procesos-dignidad', procesoDignidadController.getAllProcesosDignidad, procesoDignidadController.getProcesoDignidadById, procesoDignidadController.createProcesoDignidad, procesoDignidadController.updateProcesoDignidad, procesoDignidadController.deleteProcesoDignidad);
+registerRoutes('procesos-electorales', procesoElectoralController.getAllProcesosElectorales, procesoElectoralController.getProcesoElectoralById, procesoElectoralController.createProcesoElectoral, procesoElectoralController.updateProcesoElectoral, procesoElectoralController.deleteProcesoElectoral);
+registerRoutes('provincias', provinciaController.getAllProvincias, provinciaController.getProvinciaById, provinciaController.createProvincia, provinciaController.updateProvincia, provinciaController.deleteProvincia);
+registerRoutes('rbu', rbuController.getAllRbus, rbuController.getRbuById, rbuController.createRbu, rbuController.updateRbu, rbuController.deleteRbu);
+registerRoutes('rbu-opciones-consulta', rbuOpcionConsultaController.getAllOptions, rbuOpcionConsultaController.getOptionById, rbuOpcionConsultaController.createOption, rbuOpcionConsultaController.updateOption, rbuOpcionConsultaController.deleteOption);
+registerRoutes('rbu-opciones-dignidad', rbuOpcionDignidadController.getAllOptions, rbuOpcionDignidadController.getOptionById, rbuOpcionDignidadController.createOption, rbuOpcionDignidadController.updateOption, rbuOpcionDignidadController.deleteOption);
+registerRoutes('rbu-opciones-lista', rbuOpcionListaController.getAllOptions, rbuOpcionListaController.getOptionById, rbuOpcionListaController.createOption, rbuOpcionListaController.updateOption, rbuOpcionListaController.deleteOption);
+registerRoutes('recintos-electorales', recintoElectoralController.getRecintosElectorales, recintoElectoralController.getRecintoElectoralById, recintoElectoralController.createRecintoElectoral, recintoElectoralController.updateRecintoElectoral, recintoElectoralController.deleteRecintoElectoral);
+registerRoutes('responsabilidades', responsabilidadController.getAllResponsabilidades, responsabilidadController.getResponsabilidadById, responsabilidadController.createResponsabilidad, responsabilidadController.updateResponsabilidad, responsabilidadController.deleteResponsabilidad);
+registerRoutes('roles', rolController.getRoles, rolController.getRolById, rolController.createRol, rolController.updateRol, rolController.deleteRol);
+registerRoutes('tipos-chat', tipoChatController.getAllTipoChats, tipoChatController.getTipoChatById, tipoChatController.createTipoChat, tipoChatController.updateTipoChat, tipoChatController.deleteTipoChat);
+registerRoutes('tipos-dignidad', tipoDignidadController.getAllTipoDignidades, tipoDignidadController.getTipoDignidadById, tipoDignidadController.createTipoDignidad, tipoDignidadController.updateTipoDignidad, tipoDignidadController.deleteTipoDignidad);
+registerRoutes('tipos-eleccion', tipoEleccionController.getAllTipoElecciones, tipoEleccionController.getTipoEleccionById, tipoEleccionController.createTipoEleccion, tipoEleccionController.updateTipoEleccion, tipoEleccionController.deleteTipoEleccion);
+registerRoutes('usuarios', usuarioController.getUsuarios, usuarioController.getUsuarioById, usuarioController.createUsuario, usuarioController.updateUsuario, usuarioController.deleteUsuario);
 
 module.exports = router;
