@@ -27,6 +27,15 @@ exports.getParroquiaById = async (req, res) => {
 // Crear una nueva parroquia
 exports.createParroquia = async (req, res) => {
     try {
+
+        const lastParroquia = await prisma.parroquia.findFirst({
+
+            orderBy: {
+                id: 'desc',
+                },
+            });
+            req.body.id = lastParroquia ? lastParroquia.id + 1 : 1;
+            req.body.fecha_ingreso = new Date();
         const nuevaParroquia = await prisma.parroquia.create({
             data: req.body
         });
@@ -39,6 +48,7 @@ exports.createParroquia = async (req, res) => {
 // Actualizar una parroquia existente
 exports.updateParroquia = async (req, res) => {
     try {
+        req.body.fecha_modificacion = new Date();
         const parroquia = await prisma.parroquia.update({
             where: { id: parseInt(req.params.id) },
             data: req.body

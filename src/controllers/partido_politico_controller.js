@@ -29,6 +29,14 @@ const getPartidoPoliticoById = async (req, res) => {
 
 const createPartidoPolitico = async (req, res) => {
     try {
+
+        const lastPartidoPolitico = await prisma.partidoPolitico.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastPartidoPolitico ? lastPartidoPolitico.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newPartidoPolitico = await prisma.partidoPolitico.create({
             data: req.body,
         });
@@ -41,6 +49,8 @@ const createPartidoPolitico = async (req, res) => {
 const updatePartidoPolitico = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const updatedPartidoPolitico = await prisma.partidoPolitico.update({
             where: { id: parseInt(id) },
             data: req.body,

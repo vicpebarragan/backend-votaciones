@@ -29,6 +29,14 @@ const getJuntaById = async (req, res) => {
 
 const createJunta = async (req, res) => {
     try {
+
+        const lastJunta = await prisma.junta.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastJunta ? lastJunta.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newJunta = await prisma.junta.create({
             data: req.body,
         });
@@ -41,6 +49,8 @@ const createJunta = async (req, res) => {
 const updateJunta = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const updatedJunta = await prisma.junta.update({
             where: { id: parseInt(id) },
             data: req.body,

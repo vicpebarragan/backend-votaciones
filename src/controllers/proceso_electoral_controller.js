@@ -29,6 +29,14 @@ const getProcesoElectoralById = async (req, res) => {
 
 const createProcesoElectoral = async (req, res) => {
     try {
+
+        const lastProcesoElectoral = await prisma.procesoElectoral.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastProcesoElectoral ? lastProcesoElectoral.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newProcesoElectoral = await prisma.procesoElectoral.create({
             data: req.body
         });
@@ -41,6 +49,7 @@ const createProcesoElectoral = async (req, res) => {
 const updateProcesoElectoral = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedProcesoElectoral = await prisma.procesoElectoral.update({
             where: { id: Number(id) },
             data: req.body

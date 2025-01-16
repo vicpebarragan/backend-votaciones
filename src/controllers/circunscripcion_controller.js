@@ -29,6 +29,14 @@ exports.getCircunscripcionById = async (req, res) => {
 // Crear una nueva circunscripción
 exports.createCircunscripcion = async (req, res) => {
     try {
+
+        const lastCircunscripcion = await prisma.circunscripcion.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastCircunscripcion ? lastCircunscripcion.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const nuevaCircunscripcion = await prisma.circunscripcion.create({
             data: req.body
         });
@@ -41,6 +49,8 @@ exports.createCircunscripcion = async (req, res) => {
 // Actualizar una circunscripción existente
 exports.updateCircunscripcion = async (req, res) => {
     try {
+
+        req.body.fecha_modificacion = new Date();
         const circunscripcion = await prisma.circunscripcion.update({
             where: { id: parseInt(req.params.id) },
             data: req.body

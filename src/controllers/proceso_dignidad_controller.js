@@ -29,6 +29,15 @@ const getProcesoDignidadById = async (req, res) => {
 
 const createProcesoDignidad = async (req, res) => {
     try {
+
+
+        const lastProcesoDignidad = await prisma.procesoDignidad.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastProcesoDignidad ? lastProcesoDignidad.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newProcesoDignidad = await prisma.procesoDignidad.create({
             data: req.body,
         });
@@ -41,6 +50,8 @@ const createProcesoDignidad = async (req, res) => {
 const updateProcesoDignidad = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const updatedProcesoDignidad = await prisma.procesoDignidad.update({
             where: { id: parseInt(id) },
             data: req.body,

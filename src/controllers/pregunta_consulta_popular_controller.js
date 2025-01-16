@@ -29,6 +29,15 @@ const getPreguntaById = async (req, res) => {
 
 const createPregunta = async (req, res) => {
     try {
+
+        const lastPregunta = await prisma.pregunta.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastPregunta ? lastPregunta.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
+
         const newPregunta = await prisma.pregunta.create({
             data: req.body,
         });
@@ -41,6 +50,7 @@ const createPregunta = async (req, res) => {
 const updatePregunta = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedPregunta = await prisma.pregunta.update({
             where: { id: parseInt(id) },
             data: req.body,

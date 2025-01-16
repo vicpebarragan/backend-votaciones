@@ -29,6 +29,14 @@ const getMensajeById = async (req, res) => {
 
 const createMensaje = async (req, res) => {
     try {
+
+        const lastMensaje = await prisma.mensaje.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastMensaje ? lastMensaje.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const nuevoMensaje = await prisma.mensaje.create({
             data: req.body
         });
@@ -41,6 +49,8 @@ const createMensaje = async (req, res) => {
 const updateMensaje = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const mensajeActualizado = await prisma.mensaje.update({
             where: { id: Number(id) },
             data: req.body,

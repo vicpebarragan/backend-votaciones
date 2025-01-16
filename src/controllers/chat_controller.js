@@ -29,6 +29,14 @@ const getChatById = async (req, res) => {
 
 const createChat = async (req, res) => {
     try {
+
+        const lastChat = await prisma.chat.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastChat ? lastChat.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newChat = await prisma.chat.create({
             data: req.body
         });
@@ -41,6 +49,7 @@ const createChat = async (req, res) => {
 const updateChat = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedChat = await prisma.chat.update({
             where: { id: Number(id) },
             data: req.body

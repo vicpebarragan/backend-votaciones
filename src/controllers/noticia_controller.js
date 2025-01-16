@@ -29,6 +29,15 @@ const getNoticiaById = async (req, res) => {
 
 const createNoticia = async (req, res) => {
     try {
+
+
+        const lastNoticia = await prisma.noticia.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastNoticia ? lastNoticia.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const nuevaNoticia = await prisma.noticia.create({
             data: req.body,
         });
@@ -41,6 +50,7 @@ const createNoticia = async (req, res) => {
 const updateNoticia = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const noticiaActualizada = await prisma.noticia.update({
             where: { id: Number(id) },
             data: req.body,

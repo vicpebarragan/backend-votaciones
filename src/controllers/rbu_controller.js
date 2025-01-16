@@ -29,6 +29,14 @@ const getRbuById = async (req, res) => {
 
 const createRbu = async (req, res) => {
     try {
+
+        const lastRbu = await prisma.rbu.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastRbu ? lastRbu.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newRbu = await prisma.rbu.create({
             data: req.body,
         });
@@ -41,6 +49,7 @@ const createRbu = async (req, res) => {
 const updateRbu = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedRbu = await prisma.rbu.update({
             where: { id: parseInt(id) },
             data: req.body

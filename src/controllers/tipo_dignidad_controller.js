@@ -29,6 +29,14 @@ const getTipoDignidadById = async (req, res) => {
 
 const createTipoDignidad = async (req, res) => {
     try {
+
+        const lastTipoDignidad = await prisma.tipoDignidad.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastTipoDignidad ? lastTipoDignidad.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newTipoDignidad = await prisma.tipoDignidad.create({
             data: req.body,
         });
@@ -41,6 +49,7 @@ const createTipoDignidad = async (req, res) => {
 const updateTipoDignidad = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedTipoDignidad = await prisma.tipoDignidad.update({
             where: { id: parseInt(id) },
             data: req.body,

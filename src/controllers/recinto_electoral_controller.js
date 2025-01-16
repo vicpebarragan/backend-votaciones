@@ -29,6 +29,14 @@ exports.getRecintoElectoralById = async (req, res) => {
 // Crear un nuevo recinto electoral
 exports.createRecintoElectoral = async (req, res) => {
     try {
+
+        const lastRecinto = await prisma.recintoElectoral.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastRecinto ? lastRecinto.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newRecinto = await prisma.recintoElectoral.create({
             data: req.body
         });
@@ -41,6 +49,7 @@ exports.createRecintoElectoral = async (req, res) => {
 // Actualizar un recinto electoral existente
 exports.updateRecintoElectoral = async (req, res) => {
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedRecinto = await prisma.recintoElectoral.update({
             where: { id: parseInt(req.params.id) },
             data: req.body

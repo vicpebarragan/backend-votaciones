@@ -27,6 +27,13 @@ exports.getProvinciaById = async (req, res) => {
 exports.createProvincia = async (req, res) => {
   const data = req.body;
   try {
+    const lastProvincia = await prisma.provincia.findFirst({
+      orderBy: {
+        id: 'desc',
+      },
+    });
+    data.id = lastProvincia ? lastProvincia.id + 1 : 1;
+    data.fecha_ingreso = new Date();
     const newProvincia = await prisma.provincia.create({ data });
     res.status(201).json(newProvincia);
   } catch (error) {
@@ -39,6 +46,7 @@ exports.updateProvincia = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
   try {
+    req.body.fecha_modificacion = new Date();
     const updatedProvincia = await prisma.provincia.update({
       where: { id: Number(id) },
       data,

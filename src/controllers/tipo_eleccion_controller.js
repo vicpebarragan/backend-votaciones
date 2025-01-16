@@ -29,6 +29,14 @@ const getTipoEleccionById = async (req, res) => {
 
 const createTipoEleccion = async (req, res) => {
     try {
+
+        const lastTipoEleccion = await prisma.tipoEleccion.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastTipoEleccion ? lastTipoEleccion.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newTipoEleccion = await prisma.tipoEleccion.create({
             data: req.body,
         });
@@ -41,6 +49,7 @@ const createTipoEleccion = async (req, res) => {
 const updateTipoEleccion = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedTipoEleccion = await prisma.tipoEleccion.update({
             where: { id: Number(id) },
             data: req.body,

@@ -29,6 +29,14 @@ const getEventoById = async (req, res) => {
 
 const createEvento = async (req, res) => {
     try {
+
+        const lastEvento = await prisma.evento.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastEvento ? lastEvento.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newEvento = await prisma.evento.create({
             data: req.body,
         });
@@ -41,6 +49,8 @@ const createEvento = async (req, res) => {
 const updateEvento = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const updatedEvento = await prisma.evento.update({
             where: { id: Number(id) },
             data: req.body,

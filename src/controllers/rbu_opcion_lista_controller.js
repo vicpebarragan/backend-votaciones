@@ -29,6 +29,14 @@ const getOptionById = async (req, res) => {
 
 const createOption = async (req, res) => {
     try {
+
+        const lastOption = await prisma.rbu_opcion_lista.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastOption ? lastOption.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newOption = await prisma.rbu_opcion_lista.create({
             data: req.body,
         });
@@ -41,6 +49,7 @@ const createOption = async (req, res) => {
 const updateOption = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedOption = await prisma.rbu_opcion_lista.update({
             where: { id: parseInt(id) },
             data: req.body,

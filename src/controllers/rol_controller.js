@@ -29,6 +29,15 @@ const getRolById = async (req, res) => {
 
 const createRol = async (req, res) => {
     try {
+
+
+        const lastRol = await prisma.rol.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastRol ? lastRol.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newRol = await prisma.rol.create({
             data: req.body,
         });
@@ -41,6 +50,7 @@ const createRol = async (req, res) => {
 const updateRol = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedRol = await prisma.rol.update({
             where: { id: parseInt(id) },
             data: req.body,

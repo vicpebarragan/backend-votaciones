@@ -29,6 +29,14 @@ const getUsuarioById = async (req, res) => {
 
 const createUsuario = async (req, res) => {
     try {
+
+        const lastUsuario = await prisma.usuario.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastUsuario ? lastUsuario.id + 1 : 1;
+        req.body.fecha_ingreso = new Date();
         const nuevoUsuario = await prisma.usuario.create({
             data: req.body,
         });
@@ -41,6 +49,9 @@ const createUsuario = async (req, res) => {
 const updateUsuario = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
+
         const usuarioActualizado = await prisma.usuario.update({
             where: { id: Number(id) },
             data: req.body,

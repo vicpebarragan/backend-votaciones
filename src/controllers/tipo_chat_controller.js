@@ -29,6 +29,15 @@ const getTipoChatById = async (req, res) => {
 
 const createTipoChat = async (req, res) => {
     try {
+
+        const lastTipoChat = await prisma.tipoChat.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastTipoChat ? lastTipoChat.id + 1 : 1;
+
+          req.body.fecha_ingreso = new Date();
         const newTipoChat = await prisma.tipoChat.create({
             data: req.body,
         });
@@ -41,6 +50,8 @@ const createTipoChat = async (req, res) => {
 const updateTipoChat = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const updatedTipoChat = await prisma.tipoChat.update({
             where: { id: parseInt(id) },
             data: req.body,

@@ -28,6 +28,14 @@ const getActaById = async (req, res) => {
 const createActa = async (req, res) => {
     
     try {
+
+        const lastActa = await prisma.acta.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastActa ? lastActa.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newActa = await prisma.acta.create({
             data: req.body
         });
@@ -40,6 +48,8 @@ const createActa = async (req, res) => {
 const updateActa = async (req, res) => {
     const { id } = req.params;
     try {
+
+        req.body.fecha_modificacion = new Date();
         const updatedActa = await prisma.acta.update({
             where: { id: Number(id) },
             data: req.body

@@ -29,6 +29,15 @@ exports.getCantonById = async (req, res) => {
 // Create a new canton
 exports.createCanton = async (req, res) => {
     try {
+
+
+        const lastCanton = await prisma.canton.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastCanton ? lastCanton.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newCanton = await prisma.canton.create({
             data: req.body
         });
@@ -41,6 +50,8 @@ exports.createCanton = async (req, res) => {
 // Update a canton by ID
 exports.updateCanton = async (req, res) => {
     try {
+
+        req.body.fecha_modificacion = new Date();
         const canton = await prisma.canton.findUnique({
             where: { id: parseInt(req.params.id) }
         });

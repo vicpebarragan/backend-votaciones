@@ -29,6 +29,14 @@ const getResponsabilidadById = async (req, res) => {
 
 const createResponsabilidad = async (req, res) => {
     try {
+
+        const lastResponsabilidad = await prisma.responsabilidad.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          req.body.id = lastResponsabilidad ? lastResponsabilidad.id + 1 : 1;
+          req.body.fecha_ingreso = new Date();
         const newResponsabilidad = await prisma.responsabilidad.create({
             data: req.body,
         });
@@ -41,6 +49,7 @@ const createResponsabilidad = async (req, res) => {
 const updateResponsabilidad = async (req, res) => {
     const { id } = req.params;
     try {
+        req.body.fecha_modificacion = new Date();
         const updatedResponsabilidad = await prisma.responsabilidad.update({
             where: { id: parseInt(id) },
             data: req.body,

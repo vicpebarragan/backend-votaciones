@@ -30,6 +30,15 @@ const getDetalleActaConsultaById = async (req, res) => {
 const createDetalleActaConsulta = async (req, res) => {
     const { data } = req.body;
     try {
+
+
+        const lastActaConsulta = await prisma.detalleActaConsulta.findFirst({
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          data.id = lastActaConsulta ? lastActaConsulta.id + 1 : 1;
+          data.fecha_ingreso = new Date();
         const newDetalleActaConsulta = await prisma.detalleActaConsulta.create({
             data,
         });
@@ -43,6 +52,8 @@ const updateDetalleActaConsulta = async (req, res) => {
     const { id } = req.params;
     const { data } = req.body;
     try {
+        
+        data.fecha_modificacion = new Date();
         const updatedDetalleActaConsulta = await prisma.detalleActaConsulta.update({
             where: { id: Number(id) },
             data,
