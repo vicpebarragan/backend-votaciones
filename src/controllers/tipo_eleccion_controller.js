@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getAllTipoElecciones = async (req, res) => {
     try {
-        const tipoElecciones = await prisma.tipoEleccion.findMany();
+        const tipoElecciones = await prisma.tipo_eleccion.findMany();
         res.status(200).json(tipoElecciones);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching tipo elecciones' });
@@ -14,7 +14,7 @@ const getAllTipoElecciones = async (req, res) => {
 const getTipoEleccionById = async (req, res) => {
     const { id } = req.params;
     try {
-        const tipoEleccion = await prisma.tipoEleccion.findUnique({
+        const tipoEleccion = await prisma.tipo_eleccion.findUnique({
             where: { id: Number(id) },
         });
         if (tipoEleccion) {
@@ -30,14 +30,14 @@ const getTipoEleccionById = async (req, res) => {
 const createTipoEleccion = async (req, res) => {
     try {
 
-        const lastTipoEleccion = await prisma.tipoEleccion.findFirst({
+        const lastTipoEleccion = await prisma.tipo_eleccion.findFirst({
             orderBy: {
               id: 'desc',
             },
           });
           req.body.id = lastTipoEleccion ? lastTipoEleccion.id + 1 : 1;
           req.body.fecha_ingreso = new Date();
-        const newTipoEleccion = await prisma.tipoEleccion.create({
+        const newTipoEleccion = await prisma.tipo_eleccion.create({
             data: req.body,
         });
         res.status(201).json(newTipoEleccion);
@@ -50,7 +50,7 @@ const updateTipoEleccion = async (req, res) => {
     const { id } = req.params;
     try {
         req.body.fecha_modificacion = new Date();
-        const updatedTipoEleccion = await prisma.tipoEleccion.update({
+        const updatedTipoEleccion = await prisma.tipo_eleccion.update({
             where: { id: Number(id) },
             data: req.body,
         });
@@ -63,7 +63,7 @@ const updateTipoEleccion = async (req, res) => {
 const deleteTipoEleccion = async (req, res) => {
     const { id } = req.params;
     try {
-        await prisma.tipoEleccion.delete({
+        await prisma.tipo_eleccion.delete({
             where: { id: Number(id) },
         });
         res.status(204).send();

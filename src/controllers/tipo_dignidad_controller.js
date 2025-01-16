@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getAllTipoDignidades = async (req, res) => {
     try {
-        const tipoDignidades = await prisma.tipoDignidad.findMany();
+        const tipoDignidades = await prisma.tipo_dignidad.findMany();
         res.status(200).json(tipoDignidades);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching tipo dignidades' });
@@ -14,7 +14,7 @@ const getAllTipoDignidades = async (req, res) => {
 const getTipoDignidadById = async (req, res) => {
     const { id } = req.params;
     try {
-        const tipoDignidad = await prisma.tipoDignidad.findUnique({
+        const tipoDignidad = await prisma.tipo_dignidad.findUnique({
             where: { id: parseInt(id) },
         });
         if (tipoDignidad) {
@@ -30,14 +30,14 @@ const getTipoDignidadById = async (req, res) => {
 const createTipoDignidad = async (req, res) => {
     try {
 
-        const lastTipoDignidad = await prisma.tipoDignidad.findFirst({
+        const lastTipoDignidad = await prisma.tipo_dignidad.findFirst({
             orderBy: {
               id: 'desc',
             },
           });
           req.body.id = lastTipoDignidad ? lastTipoDignidad.id + 1 : 1;
           req.body.fecha_ingreso = new Date();
-        const newTipoDignidad = await prisma.tipoDignidad.create({
+        const newTipoDignidad = await prisma.tipo_dignidad.create({
             data: req.body,
         });
         res.status(201).json(newTipoDignidad);
@@ -50,7 +50,7 @@ const updateTipoDignidad = async (req, res) => {
     const { id } = req.params;
     try {
         req.body.fecha_modificacion = new Date();
-        const updatedTipoDignidad = await prisma.tipoDignidad.update({
+        const updatedTipoDignidad = await prisma.tipo_dignidad.update({
             where: { id: parseInt(id) },
             data: req.body,
         });
@@ -63,7 +63,7 @@ const updateTipoDignidad = async (req, res) => {
 const deleteTipoDignidad = async (req, res) => {
     const { id } = req.params;
     try {
-        await prisma.tipoDignidad.delete({
+        await prisma.tipo_dignidad.delete({
             where: { id: parseInt(id) },
         });
         res.status(204).send();

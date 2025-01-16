@@ -151,6 +151,7 @@ model Usuario {
   mensaje              mensaje[]
 
   partido partido_politico @relation(fields: [partido_id], references: [id])
+  rol rol @relation(fields: [rol_id], references: [id])
 }
 
 //Tabla: proceso electoral 
@@ -455,5 +456,37 @@ model detalle_acta {
   acta acta @relation(fields:[acta_id], references:[id])
   dignidad dignidad @relation(fields:[dignidad_id], references: [id])
   partido_politico partido_politico @relation(fields:[partido_politico_id], references:[id])
+
+}
+
+
+model rol {
+  id                   Int      @id @default(autoincrement())
+  descripcion          String 
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  Usuario              Usuario[]
+  responsabilidad      responsabilidad[]
+}
+
+
+
+model responsabilidad {
+  id                   Int      @id @default(autoincrement())
+  descripcion          String 
+  rol_id               Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  rol rol @relation(fields: [rol_id], references: [id])
 
 }

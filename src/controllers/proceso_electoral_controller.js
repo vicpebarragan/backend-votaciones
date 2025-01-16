@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getAllProcesosElectorales = async (req, res) => {
     try {
-        const procesosElectorales = await prisma.procesoElectoral.findMany();
+        const procesosElectorales = await prisma.proceso_electoral.findMany();
         res.status(200).json(procesosElectorales);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching procesos electorales' });
@@ -14,7 +14,7 @@ const getAllProcesosElectorales = async (req, res) => {
 const getProcesoElectoralById = async (req, res) => {
     const { id } = req.params;
     try {
-        const procesoElectoral = await prisma.procesoElectoral.findUnique({
+        const procesoElectoral = await prisma.proceso_electoral.findUnique({
             where: { id: Number(id) },
         });
         if (procesoElectoral) {
@@ -30,14 +30,14 @@ const getProcesoElectoralById = async (req, res) => {
 const createProcesoElectoral = async (req, res) => {
     try {
 
-        const lastProcesoElectoral = await prisma.procesoElectoral.findFirst({
+        const lastProcesoElectoral = await prisma.proceso_electoral.findFirst({
             orderBy: {
               id: 'desc',
             },
           });
           req.body.id = lastProcesoElectoral ? lastProcesoElectoral.id + 1 : 1;
           req.body.fecha_ingreso = new Date();
-        const newProcesoElectoral = await prisma.procesoElectoral.create({
+        const newProcesoElectoral = await prisma.proceso_electoral.create({
             data: req.body
         });
         res.status(201).json(newProcesoElectoral);
@@ -50,7 +50,7 @@ const updateProcesoElectoral = async (req, res) => {
     const { id } = req.params;
     try {
         req.body.fecha_modificacion = new Date();
-        const updatedProcesoElectoral = await prisma.procesoElectoral.update({
+        const updatedProcesoElectoral = await prisma.proceso_electoral.update({
             where: { id: Number(id) },
             data: req.body
         });
@@ -63,7 +63,7 @@ const updateProcesoElectoral = async (req, res) => {
 const deleteProcesoElectoral = async (req, res) => {
     const { id } = req.params;
     try {
-        await prisma.procesoElectoral.delete({
+        await prisma.proceso_electoral.delete({
             where: { id: Number(id) },
         });
         res.status(204).send();

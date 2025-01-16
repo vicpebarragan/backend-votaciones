@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getPreguntas = async (req, res) => {
     try {
-        const preguntas = await prisma.pregunta.findMany();
+        const preguntas = await prisma.pregunta_consulta_popular.findMany();
         res.json(preguntas);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching preguntas' });
@@ -14,7 +14,7 @@ const getPreguntas = async (req, res) => {
 const getPreguntaById = async (req, res) => {
     const { id } = req.params;
     try {
-        const pregunta = await prisma.pregunta.findUnique({
+        const pregunta = await prisma.pregunta_consulta_popular.findUnique({
             where: { id: parseInt(id) },
         });
         if (pregunta) {
@@ -30,7 +30,7 @@ const getPreguntaById = async (req, res) => {
 const createPregunta = async (req, res) => {
     try {
 
-        const lastPregunta = await prisma.pregunta.findFirst({
+        const lastPregunta = await prisma.pregunta_consulta_popular.findFirst({
             orderBy: {
               id: 'desc',
             },
@@ -38,7 +38,7 @@ const createPregunta = async (req, res) => {
           req.body.id = lastPregunta ? lastPregunta.id + 1 : 1;
           req.body.fecha_ingreso = new Date();
 
-        const newPregunta = await prisma.pregunta.create({
+        const newPregunta = await prisma.pregunta_consulta_popular.create({
             data: req.body,
         });
         res.status(201).json(newPregunta);
@@ -51,7 +51,7 @@ const updatePregunta = async (req, res) => {
     const { id } = req.params;
     try {
         req.body.fecha_modificacion = new Date();
-        const updatedPregunta = await prisma.pregunta.update({
+        const updatedPregunta = await prisma.pregunta_consulta_popular.update({
             where: { id: parseInt(id) },
             data: req.body,
         });
@@ -64,7 +64,7 @@ const updatePregunta = async (req, res) => {
 const deletePregunta = async (req, res) => {
     const { id } = req.params;
     try {
-        await prisma.pregunta.delete({
+        await prisma.pregunta_consulta_popular.delete({
             where: { id: parseInt(id) },
         });
         res.status(204).end();

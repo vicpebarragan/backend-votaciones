@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const getJuntas = async (req, res) => {
     try {
         const juntas = await prisma.junta.findMany();
-        res.json(juntas);
+        res.status(200).json(juntas);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching juntas' });
     }

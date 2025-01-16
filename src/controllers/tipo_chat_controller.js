@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getAllTipoChats = async (req, res) => {
     try {
-        const tipoChats = await prisma.tipoChat.findMany();
+        const tipoChats = await prisma.tipo_chat.findMany();
         res.status(200).json(tipoChats);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching tipo chats' });
@@ -14,7 +14,7 @@ const getAllTipoChats = async (req, res) => {
 const getTipoChatById = async (req, res) => {
     const { id } = req.params;
     try {
-        const tipoChat = await prisma.tipoChat.findUnique({
+        const tipoChat = await prisma.tipo_chat.findUnique({
             where: { id: parseInt(id) },
         });
         if (tipoChat) {
@@ -30,7 +30,7 @@ const getTipoChatById = async (req, res) => {
 const createTipoChat = async (req, res) => {
     try {
 
-        const lastTipoChat = await prisma.tipoChat.findFirst({
+        const lastTipoChat = await prisma.tipo_chat.findFirst({
             orderBy: {
               id: 'desc',
             },
@@ -38,7 +38,7 @@ const createTipoChat = async (req, res) => {
           req.body.id = lastTipoChat ? lastTipoChat.id + 1 : 1;
 
           req.body.fecha_ingreso = new Date();
-        const newTipoChat = await prisma.tipoChat.create({
+        const newTipoChat = await prisma.tipo_chat.create({
             data: req.body,
         });
         res.status(201).json(newTipoChat);
@@ -52,7 +52,7 @@ const updateTipoChat = async (req, res) => {
     try {
 
         req.body.fecha_modificacion = new Date();
-        const updatedTipoChat = await prisma.tipoChat.update({
+        const updatedTipoChat = await prisma.tipo_chat.update({
             where: { id: parseInt(id) },
             data: req.body,
         });
@@ -65,7 +65,7 @@ const updateTipoChat = async (req, res) => {
 const deleteTipoChat = async (req, res) => {
     const { id } = req.params;
     try {
-        await prisma.tipoChat.delete({
+        await prisma.tipo_chat.delete({
             where: { id: parseInt(id) },
         });
         res.status(204).send();

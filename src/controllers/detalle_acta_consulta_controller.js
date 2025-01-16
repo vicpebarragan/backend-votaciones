@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 
 const getDetalleActaConsulta = async (req, res) => {
     try {
-        const detalleActaConsulta = await prisma.detalleActaConsulta.findMany();
-        res.json(detalleActaConsulta);
+        const detalleActaConsulta = await prisma.detalle_acta_consulta.findMany();
+        res.status(200).json(detalleActaConsulta);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching data' });
     }
@@ -14,7 +14,7 @@ const getDetalleActaConsulta = async (req, res) => {
 const getDetalleActaConsultaById = async (req, res) => {
     const { id } = req.params;
     try {
-        const detalleActaConsulta = await prisma.detalleActaConsulta.findUnique({
+        const detalleActaConsulta = await prisma.detalle_acta_consulta.findUnique({
             where: { id: Number(id) },
         });
         if (detalleActaConsulta) {
@@ -32,14 +32,14 @@ const createDetalleActaConsulta = async (req, res) => {
     try {
 
 
-        const lastActaConsulta = await prisma.detalleActaConsulta.findFirst({
+        const lastActaConsulta = await prisma.detalle_acta_consulta.findFirst({
             orderBy: {
               id: 'desc',
             },
           });
           data.id = lastActaConsulta ? lastActaConsulta.id + 1 : 1;
           data.fecha_ingreso = new Date();
-        const newDetalleActaConsulta = await prisma.detalleActaConsulta.create({
+        const newDetalleActaConsulta = await prisma.detalle_acta_consulta.create({
             data,
         });
         res.status(201).json(newDetalleActaConsulta);
@@ -54,7 +54,7 @@ const updateDetalleActaConsulta = async (req, res) => {
     try {
         
         data.fecha_modificacion = new Date();
-        const updatedDetalleActaConsulta = await prisma.detalleActaConsulta.update({
+        const updatedDetalleActaConsulta = await prisma.detalle_acta_consulta.update({
             where: { id: Number(id) },
             data,
         });

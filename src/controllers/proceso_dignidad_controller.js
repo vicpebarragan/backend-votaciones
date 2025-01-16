@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getAllProcesosDignidad = async (req, res) => {
     try {
-        const procesosDignidad = await prisma.procesoDignidad.findMany();
+        const procesosDignidad = await prisma.proceso_dignidad.findMany();
         res.status(200).json(procesosDignidad);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching procesos dignidad' });
