@@ -74,4 +74,7 @@ registerRoutes('tipos-dignidad', tipoDignidadController.getAllTipoDignidades, ti
 registerRoutes('tipos-eleccion', tipoEleccionController.getAllTipoElecciones, tipoEleccionController.getTipoEleccionById, tipoEleccionController.createTipoEleccion, tipoEleccionController.updateTipoEleccion, tipoEleccionController.deleteTipoEleccion);
 registerRoutes('usuarios', usuarioController.getUsuarios, usuarioController.getUsuarioById, usuarioController.createUsuario, usuarioController.updateUsuario, usuarioController.deleteUsuario);
 
+//Cantones extra
+router.get('/cantones/provincia/:provincia_id', cantonController.getCantonsByProvinceId);
+
 module.exports = router;

@@ -26,6 +26,23 @@ exports.getCantonById = async (req, res) => {
     }
 };
 
+// Get a list of cantons by province ID
+exports.getCantonsByProvinceId = async (req, res) => {
+
+    try {
+        const cantons = await prisma.canton.findMany({
+            where: { provincia_id: parseInt(req.params.provincia_id) }
+        });
+        if (!cantons) {
+            return res.status(404).json({ message: 'Cantons not found' });
+        }
+        res.status(200).json(cantons);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 // Create a new canton
 exports.createCanton = async (req, res) => {
     try {
