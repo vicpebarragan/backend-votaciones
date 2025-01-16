@@ -26,6 +26,21 @@ exports.getRecintoElectoralById = async (req, res) => {
     }
 };
 
+// Obtener un recinto electoral por parroquia_id
+exports.getRecintoElectoralByParroquiaId = async (req, res) => {
+    try {
+        const recinto = await prisma.recinto_Electoral.findMany({
+            where: { parroquia_id: parseInt(req.params.parroquia_id) }
+        });
+        if (!recinto) {
+            return res.status(404).json({ message: 'Recinto electoral no encontrado' });
+        }
+        res.status(200).json(recinto);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // Crear un nuevo recinto electoral
 exports.createRecintoElectoral = async (req, res) => {
     try {

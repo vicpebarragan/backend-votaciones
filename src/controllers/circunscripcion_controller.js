@@ -26,6 +26,22 @@ exports.getCircunscripcionById = async (req, res) => {
     }
 };
 
+//Obtener una circunscripción por provincia_id
+exports.getCircunscripcionByProvinciaId = async (req, res) => {
+    try {
+        const circunscripcion = await prisma.circunscripcion.findMany({
+            where: { provincia_id: parseInt(req.params.provincia_id) }
+        });
+        if (!circunscripcion) {
+            return res.status(404).json({ message: 'Circunscripción no encontrada' });
+        }
+        res.status(200).json(circunscripcion);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 // Crear una nueva circunscripción
 exports.createCircunscripcion = async (req, res) => {
     try {

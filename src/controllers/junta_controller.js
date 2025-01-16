@@ -27,6 +27,20 @@ const getJuntaById = async (req, res) => {
     }
 };
 
+
+//Obtener juntas por recinto_id
+const getJuntasByRecintoId = async (req, res) => {
+    const { recinto_id } = req.params;
+    try {
+        const juntas = await prisma.junta.findMany({
+            where: { recinto_id: parseInt(recinto_id) },
+        });
+        res.status(200).json(juntas);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching juntas' });
+    }
+};
+
 const createJunta = async (req, res) => {
     try {
 
@@ -79,4 +93,5 @@ module.exports = {
     createJunta,
     updateJunta,
     deleteJunta,
+    getJuntasByRecintoId
 };

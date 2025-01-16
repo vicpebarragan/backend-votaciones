@@ -77,4 +77,16 @@ registerRoutes('usuarios', usuarioController.getUsuarios, usuarioController.getU
 //Cantones extra
 router.get('/cantones/provincia/:provincia_id', cantonController.getCantonsByProvinceId);
 
+//Circunscripciones extra
+router.get('/circunscripciones/provincia/:provincia_id', circunscripcionController.getCircunscripcionByProvinciaId);
+
+//Parroquias extra
+router.get('/parroquias/canton/:canton_id', parroquiaController.getParroquiaByCantonId);
+
+//Recintos electorales extra
+router.get('/recintos-electorales/parroquia/:parroquia_id', recintoElectoralController.getRecintoElectoralByParroquiaId);
+
+//Juntas extra
+router.get('/juntas/recinto/:recinto_id', juntaController.getJuntasByRecintoId);
+
 module.exports = router;
