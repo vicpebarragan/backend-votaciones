@@ -33,6 +33,7 @@ const tipoDignidadController = require('../controllers/tipo_dignidad_controller'
 const tipoEleccionController = require('../controllers/tipo_eleccion_controller');
 const usuarioController = require('../controllers/usuario_controller');
 const juntaUsuarioController = require('../controllers/junta_usuario_controller');
+const emailController = require('../controllers/email_controller.js');
 
 // Función para agregar las rutas básicas
 const registerRoutes = (path, get, getById, create, update, del
@@ -90,5 +91,8 @@ router.get('/recintos-electorales/parroquia/:parroquia_id', recintoElectoralCont
 
 //Juntas extra
 router.get('/juntas/recinto/:recinto_id', juntaController.getJuntasByRecintoId);
+
+// Ruta para enviar correos
+router.post('/enviar-correo', emailController.enviarCorreo);
 
 module.exports = router;
