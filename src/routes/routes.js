@@ -91,6 +91,7 @@ router.get('/recintos-electorales/parroquia/:parroquia_id', recintoElectoralCont
 
 //Juntas extra
 router.get('/juntas/recinto/:recinto_id', juntaController.getJuntasByRecintoId);
+router.get('/juntas/usuario/:user_id', juntaController.getJuntasByUsuarioId);
 
 // Ruta para enviar correos
 router.post('/enviar-correo', emailController.enviarCorreo);

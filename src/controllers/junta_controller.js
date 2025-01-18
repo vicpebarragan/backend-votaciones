@@ -28,6 +28,34 @@ const getJuntaById = async (req, res) => {
 };
 
 
+const getJuntasByUsuarioId = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const juntasUsuario = await prisma.junta_usuario.findMany({
+            where: { usuario_id: parseInt(user_id)}
+        });
+
+        juntasUsuarioIds = juntasUsuario.map(obj => obj.junta_id);
+
+        const juntas = await prisma.junta.findMany({
+             where: {id: {
+                in: juntasUsuarioIds
+             }}
+        });
+
+        if (juntas) {
+            res.json(juntas);
+        } else {
+            res.status(404).json({ error: 'Junta not found' });
+        }
+
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching juntas' });
+    }
+}
+
+
 //Obtener juntas por recinto_id
 const getJuntasByRecintoId = async (req, res) => {
     const { recinto_id } = req.params;
@@ -93,5 +121,6 @@ module.exports = {
     createJunta,
     updateJunta,
     deleteJunta,
-    getJuntasByRecintoId
+    getJuntasByRecintoId,
+    getJuntasByUsuarioId
 };
