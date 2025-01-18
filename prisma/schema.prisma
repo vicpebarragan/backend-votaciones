@@ -103,6 +103,7 @@ model Junta {
   usuario_ingreso      Int
   usuario_modificacion Int
   acta                 acta[]
+  junta_usuario         junta_usuario[]
 
   recinto Recinto_Electoral @relation(fields: [recinto_id], references: [id])
 }
@@ -149,6 +150,7 @@ model Usuario {
   usuario_ingreso      Int
   usuario_modificacion Int
   mensaje              mensaje[]
+  junta_usuario         junta_usuario[]
 
   partido partido_politico @relation(fields: [partido_id], references: [id])
   rol rol @relation(fields: [rol_id], references: [id])
@@ -489,4 +491,19 @@ model responsabilidad {
 
   rol rol @relation(fields: [rol_id], references: [id])
 
+}
+
+model junta_usuario {
+  id                   Int      @id @default(autoincrement())
+  junta_id             Int
+  usuario_id           Int
+  estado               String
+  fecha_ingreso        DateTime
+  fecha_modificacion   DateTime
+  observacion          String?
+  usuario_ingreso      Int
+  usuario_modificacion Int
+
+  Junta Junta @relation(fields: [junta_id], references: [id])
+  Usuario Usuario @relation(fields: [usuario_id], references: [id])
 }

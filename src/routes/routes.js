@@ -32,6 +32,7 @@ const tipoChatController = require('../controllers/tipo_chat_controller');
 const tipoDignidadController = require('../controllers/tipo_dignidad_controller');
 const tipoEleccionController = require('../controllers/tipo_eleccion_controller');
 const usuarioController = require('../controllers/usuario_controller');
+const juntaUsuarioController = require('../controllers/junta_usuario_controller');
 
 // Función para agregar las rutas básicas
 const registerRoutes = (path, get, getById, create, update, del
@@ -73,6 +74,7 @@ registerRoutes('tipos-chat', tipoChatController.getAllTipoChats, tipoChatControl
 registerRoutes('tipos-dignidad', tipoDignidadController.getAllTipoDignidades, tipoDignidadController.getTipoDignidadById, tipoDignidadController.createTipoDignidad, tipoDignidadController.updateTipoDignidad, tipoDignidadController.deleteTipoDignidad);
 registerRoutes('tipos-eleccion', tipoEleccionController.getAllTipoElecciones, tipoEleccionController.getTipoEleccionById, tipoEleccionController.createTipoEleccion, tipoEleccionController.updateTipoEleccion, tipoEleccionController.deleteTipoEleccion);
 registerRoutes('usuarios', usuarioController.getUsuarios, usuarioController.getUsuarioById, usuarioController.createUsuario, usuarioController.updateUsuario, usuarioController.deleteUsuario);
+registerRoutes('juntas-usuario', juntaUsuarioController.getJuntasUsuario, juntaUsuarioController.getJuntaUsuarioById, juntaUsuarioController.createJuntaUsuario, juntaUsuarioController.updateJuntaUsuario, juntaUsuarioController.deleteJuntaUsuario);
 
 //Cantones extra
 router.get('/cantones/provincia/:provincia_id', cantonController.getCantonsByProvinceId);
