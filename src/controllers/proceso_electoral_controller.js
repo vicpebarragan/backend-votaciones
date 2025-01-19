@@ -31,7 +31,7 @@ const getProcesoElectoralById = async (req, res) => {
 const getProcesosElectoralesVigentes = async (req, res) => {
     try {
         const procesosElectorales = await prisma.proceso_electoral.findMany({
-            where: {vigente: true}
+            where: {vigente: true} //Filtrar por vigencia
         });
         res.status(200).json(procesosElectorales);
     } catch (error) {
