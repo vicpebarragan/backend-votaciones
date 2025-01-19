@@ -97,6 +97,6 @@ router.get('/juntas/usuario/:user_id', juntaController.getJuntasByUsuarioId);
 router.post('/enviar-correo', emailController.enviarCorreo);
 
 // Procesos electorales
-router.get('/procesos-electorales/vigentes', procesoElectoralController.getProcesosElectoralesVigentes)
+router.get('/procesos-electorales/solo/vigentes', procesoElectoralController.getProcesosElectoralesVigentes);
 
 module.exports = router;
