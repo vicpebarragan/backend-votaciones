@@ -125,6 +125,7 @@ model partido_politico {
   noticia              noticia[]
   evento               evento[]
   detalle_acta         detalle_acta[]
+  proceso_dignidad     proceso_dignidad[]
 }
 
 // Tabla: usuario
@@ -395,6 +396,7 @@ model proceso_dignidad {
   proceso_electoral_id Int 
   dignidad_id          Int
   tipo_dignidad_id     Int
+  partido_id           Int
   estado               String
   fecha_ingreso        DateTime
   fecha_modificacion   DateTime
@@ -405,6 +407,7 @@ model proceso_dignidad {
   proceso_electoral proceso_electoral @relation(fields:[proceso_electoral_id], references:[id])
   dignidad dignidad @relation(fields:[dignidad_id], references:[id])
   tipo_dignidad tipo_dignidad @relation(fields:[tipo_dignidad_id], references:[id])
+  partido_politico partido_politico @relation(fields: [partido_id], references:[id])
 }
 
 model noticia {
