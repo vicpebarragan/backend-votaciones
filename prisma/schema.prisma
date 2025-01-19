@@ -357,7 +357,6 @@ model dignidad {
   usuario_ingreso      Int
   usuario_modificacion Int
   rbu_opcion_dignidad  rbu_opcion_dignidad[]
-  proceso_dignidad     proceso_dignidad[]
   detalle_acta         detalle_acta[]
 }
 
@@ -395,7 +394,7 @@ model detalle_acta_consulta {
 model proceso_dignidad {
   id                   Int      @id @default(autoincrement())
   proceso_electoral_id Int 
-  dignidad_id          Int
+  nombre               String
   tipo_dignidad_id     Int
   partido_id           Int
   estado               String
@@ -406,7 +405,6 @@ model proceso_dignidad {
   usuario_modificacion Int
 
   proceso_electoral proceso_electoral @relation(fields:[proceso_electoral_id], references:[id])
-  dignidad dignidad @relation(fields:[dignidad_id], references:[id])
   tipo_dignidad tipo_dignidad @relation(fields:[tipo_dignidad_id], references:[id])
   partido_politico partido_politico @relation(fields: [partido_id], references:[id])
 }
