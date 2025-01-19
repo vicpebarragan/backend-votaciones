@@ -162,6 +162,7 @@ model proceso_electoral {
   id                   Int      @id @default(autoincrement())
   nombre               String
   fecha                DateTime
+  vigente              Boolean
   estado               String
   fecha_ingreso        DateTime
   fecha_modificacion   DateTime

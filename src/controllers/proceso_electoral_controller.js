@@ -27,6 +27,18 @@ const getProcesoElectoralById = async (req, res) => {
     }
 };
 
+
+const getProcesosElectoralesVigentes = async (req, res) => {
+    try {
+        const procesosElectorales = await prisma.proceso_electoral.findMany({
+            where: {vigente: true},
+    });
+        res.status(200).json(procesosElectorales);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching procesos electorales' });
+    }
+}
+
 const createProcesoElectoral = async (req, res) => {
     try {
 
