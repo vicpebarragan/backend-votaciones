@@ -99,4 +99,7 @@ router.post('/enviar-correo', emailController.enviarCorreo);
 // Procesos electorales
 router.get('/procesos-electorales/solo/vigentes', procesoElectoralController.getProcesosElectoralesVigentes);
 
+// procesos dignidad extra
+router.get('/procesos-dignidad/proceso-electoral/:proc_elect_id', procesoDignidadController.getProcesoDignidadByProcesoElectoralId)
+
 module.exports = router;
